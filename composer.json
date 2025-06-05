@@ -1,0 +1,116 @@
+{
+    "license": "proprietary",
+    "type": "project",
+    "require": {
+        "php": ">=8.4",
+        "ext-ctype": "*",
+        "ext-dom": "*",
+        "ext-iconv": "*",
+        "doctrine/dbal": "^3.9.4",
+        "doctrine/doctrine-bundle": "^2.14",
+        "doctrine/doctrine-migrations-bundle": "^3.4.2",
+        "doctrine/orm": "^3.3.3",
+        "erusev/parsedown": "^1.7.4",
+        "phpdocumentor/reflection-docblock": "^5.6.2",
+        "phpstan/phpdoc-parser": "^2.1",
+        "symfony/asset": "~7.3.0",
+        "symfony/asset-mapper": "~7.3.0",
+        "symfony/console": "~7.3.0",
+        "symfony/doctrine-messenger": "~7.3.0",
+        "symfony/dotenv": "~7.3.0",
+        "symfony/expression-language": "~7.3.0",
+        "symfony/finder": "~7.3.0",
+        "symfony/flex": "^2.7.1",
+        "symfony/form": "~7.3.0",
+        "symfony/framework-bundle": "~7.3.0",
+        "symfony/http-client": "~7.3.0",
+        "symfony/intl": "~7.3.0",
+        "symfony/mailer": "~7.3.0",
+        "symfony/mime": "~7.3.0",
+        "symfony/monolog-bundle": "^3.10",
+        "symfony/notifier": "~7.3.0",
+        "symfony/process": "~7.3.0",
+        "symfony/property-access": "~7.3.0",
+        "symfony/property-info": "~7.3.0",
+        "symfony/runtime": "~7.3.0",
+        "symfony/security-bundle": "~7.3.0",
+        "symfony/serializer": "~7.3.0",
+        "symfony/stimulus-bundle": "^2.26",
+        "symfony/string": "~7.3.0",
+        "symfony/translation": "~7.3.0",
+        "symfony/twig-bundle": "~7.3.0",
+        "symfony/ux-turbo": "^2.26",
+        "symfony/validator": "~7.3.0",
+        "symfony/web-link": "~7.3.0",
+        "symfony/yaml": "~7.3.0",
+        "twig/extra-bundle": "^2.12 || ^3.21",
+        "twig/twig": "^2.12 || ^3.21.1"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.47",
+        "friendsofphp/php-cs-fixer": "^3.75",
+        "phpunit/phpunit": "^12.1.6",
+        "symfony/browser-kit": "~7.3.0",
+        "symfony/css-selector": "~7.3.0",
+        "symfony/debug-bundle": "~7.3.0",
+        "symfony/maker-bundle": "^1.63",
+        "symfony/stopwatch": "~7.3.0",
+        "symfony/web-profiler-bundle": "~7.3.0",
+        "vincentlanglet/twig-cs-fixer": "^3.7.1"
+    },
+    "replace": {
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/polyfill-php81": "*",
+        "symfony/polyfill-php82": "*"
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "php-http/discovery": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        },
+        "bump-after-update": true,
+        "sort-packages": true
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": true,
+            "docker": false,
+            "require": "7.3.*"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ],
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "importmap:install": "symfony-cmd"
+        }
+    }
+}

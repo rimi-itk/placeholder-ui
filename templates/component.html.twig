@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>{% block title %}Component{% endblock %}</title>
+    {% block style %}{% endblock %}
+    <style>
+        .component-wrapper {
+            outline: solid {{ outline_width }}px {{ outline_color }};
+
+            padding: 1em;
+            display: table-cell;
+        }
+
+        {% if 'svg' == _format %}
+        body {
+            margin: 0;
+            background: {{ outline_color }};
+        }
+        .component-wrapper {
+            background-color: {{ outline_color }};
+        }
+        {% endif %}
+    </style>
+</head>
+<body>
+{% block body %}
+    <div class="component-wrapper">
+    {% block content %}
+    {% endblock %}
+    </div>
+{% endblock %}
+
+{% if 'html' == _format %}
+    {% for format, url in urls %}
+        <a href="{{ url }}">{{ format }}</a>
+    {% endfor %}
+{% endif %}
+</body>
+</html>

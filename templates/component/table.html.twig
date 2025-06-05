@@ -1,0 +1,50 @@
+{#- --
+title: Table
+parameters:
+  cols: The number of columns
+  rows: The number of rows
+examples:
+  -
+    cols: 2
+    rows: 4
+  -
+    cols: 8
+    rows: 7
+-- -#}
+{% extends 'component.html.twig' %}
+
+{% block style %}
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            border: solid 1px #aaa;
+            padding: 1em;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% set cols = cols|default(3) %}
+    {% set rows = rows|default(3) %}
+
+    <table>
+        <thead>
+        <tr>
+            {% for c in range(0, cols - 1) %}
+                <th>{{ c }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for r in range(0, rows - 1) %}
+            <tr>
+                {% for c in range(0, cols - 1) %}
+                    <td>{{ r }}, {{ c }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

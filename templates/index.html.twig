@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for item in items %}
+    <div class="col">
+        <div class="card border-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{{ url('default', {path: item.path}) }}">{{ item.title }}</a></h5>
+
+                {% if item.description is defined %}
+                    <div class="card-text">{{ item.description|raw }}</div>
+                {% endif %}
+
+                {% if item.parameters is defined %}
+                <h6>{{ 'Parameters'|trans }}</h6>
+                {% for name, parameter in item.parameters %}
+                    <dl>
+                        <dt>{{ name }}</dt>
+                        <dd>{{ parameter }}</dd>
+                    </dl>
+                    {% endfor %}
+                {% endif %}
+
+                {% if item.examples is defined %}
+                    <h6>{{ 'Examples'|trans }}</h6>
+                    <ul>
+                    {% for example in item.examples %}
+                        {% set path = path('default', {path: item.path}|merge(example)) %}
+                        <li>
+                            <a href="{{ path }}">{{ path }}</a>
+                            {% for _format in ['html', 'svg'] %}
+                                [<a href="{{ url('default', {path: item.path, _format}|merge(example)) }}">
+                                    {{- _format -}}
+                                </a>]
+                            {% endfor %}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% for _format in ['html', 'svg'] %}
+                    <a href="{{ url('default', {path: item.path, _format}) }}" class="card-link">
+                        {{ _format }}
+                    </a>
+                {% endfor %}
+
+                <img class="card-img-bottom"  src="{{ url('default', {path: item.path, _format: 'svg'}) }}" alt="{{ item.title }}"/>
+
+            </div>
+        </div>
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
