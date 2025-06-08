@@ -1,38 +1,42 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>{% block title %}Component{% endblock %}</title>
     {% block style %}{% endblock %}
     <style>
-        .component-wrapper {
-            outline: solid {{ outline_width }}px {{ outline_color }};
-
+        #component-wrapper {
             padding: 1em;
             display: table-cell;
         }
-
-        {% if 'svg' == _format %}
-        body {
-            margin: 0;
-            background: {{ outline_color }};
-        }
-        .component-wrapper {
-            background-color: {{ outline_color }};
-        }
-        {% endif %}
     </style>
 </head>
 <body>
 {% block body %}
-    <div class="component-wrapper">
-    {% block content %}
-    {% endblock %}
+    <div id="component-wrapper">
+        {% block content %}
+        {% endblock %}
     </div>
 {% endblock %}
 
-{% if 'html' == _format %}
     {% for format, url in urls %}
         <a href="{{ url }}">{{ format }}</a>
     {% endfor %}
+
+{% if render_svg|default(false) %}
+    {# https://github.com/zumerlab/snapdom?tab=readme-ov-file #}
+    <script src="https://unpkg.com/@zumer/snapdom@latest/dist/snapdom.min.js"></script>
+    <script>
+        addEventListener('load', async() => {
+            const el = document.querySelector('#component-wrapper');
+            const result = await snapdom(el, { scale: 1 });
+            const blob = await result.toBlob(el);
+
+            const svg = document.createElement('div')
+            svg.id = 'svg'
+            svg.innerHTML = await blob.text()
+            el.parentNode.insertBefore(svg, el);
+        });
+    </script>
 {% endif %}
 </body>
 </html>

@@ -1,3 +1,13 @@
-body {
-    background-color: skyblue;
+[class^="spinner-"] {
+    display: none;
+}
+
+.loading {
+    span[class^="spinner-"] {
+        display: inline-block;
+    }
+
+    figure {
+        opacity: 0.5;
+    }
 }

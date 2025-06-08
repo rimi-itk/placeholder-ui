@@ -1,4 +1,6 @@
 {
+    "name": "rimi-itk/placeholder-ui",
+    "description": "Placeholders for UI elements",
     "license": "proprietary",
     "type": "project",
     "require": {
@@ -10,7 +12,7 @@
         "doctrine/doctrine-bundle": "^2.14",
         "doctrine/doctrine-migrations-bundle": "^3.4.2",
         "doctrine/orm": "^3.3.3",
-        "erusev/parsedown": "^1.7.4",
+        "erusev/parsedown": "dev-master",
         "phpdocumentor/reflection-docblock": "^5.6.2",
         "phpstan/phpdoc-parser": "^2.1",
         "symfony/asset": "~7.3.0",
@@ -35,11 +37,10 @@
         "symfony/runtime": "~7.3.0",
         "symfony/security-bundle": "~7.3.0",
         "symfony/serializer": "~7.3.0",
-        "symfony/stimulus-bundle": "^2.26",
+        "symfony/stimulus-bundle": "^2.26.1",
         "symfony/string": "~7.3.0",
         "symfony/translation": "~7.3.0",
         "symfony/twig-bundle": "~7.3.0",
-        "symfony/ux-turbo": "^2.26",
         "symfony/validator": "~7.3.0",
         "symfony/web-link": "~7.3.0",
         "symfony/yaml": "~7.3.0",
@@ -49,7 +50,7 @@
     "require-dev": {
         "ergebnis/composer-normalize": "^2.47",
         "friendsofphp/php-cs-fixer": "^3.75",
-        "phpunit/phpunit": "^12.1.6",
+        "phpunit/phpunit": "^12.2.1",
         "symfony/browser-kit": "~7.3.0",
         "symfony/css-selector": "~7.3.0",
         "symfony/debug-bundle": "~7.3.0",
@@ -71,7 +72,7 @@
     "conflict": {
         "symfony/symfony": "*"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "prefer-stable": true,
     "autoload": {
         "psr-4": {

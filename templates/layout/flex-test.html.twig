@@ -1,0 +1,38 @@
+{#- --
+title: Flex test
+description: |
+  <https://www.w3schools.com/csS/tryit.asp?filename=trycss3_flexbox>
+parameters:
+  count:
+    description: Number of element
+    type: number
+    default: 3
+examples:
+ - count: 2
+ - count: 7
+-- -#}
+{% extends 'layout.html.twig' %}
+
+{% block style %}
+    <style>
+        .flex-container {
+            display: flex;
+            background-color: DodgerBlue;
+        }
+
+        .flex-container > div {
+            background-color: #f1f1f1;
+            margin: 10px;
+            padding: 20px;
+            font-size: 30px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="flex-container">
+        {% for i in range(1, count|default(3)) %}
+        <div>{{ i }} </div>
+        {% endfor %}
+    </div>
+{% endblock %}
