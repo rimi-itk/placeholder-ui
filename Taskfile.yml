@@ -17,6 +17,7 @@ tasks:
         silent: true
 
     site:update:
+        desc: Install or update site
         cmds:
             - task: compose
               vars:

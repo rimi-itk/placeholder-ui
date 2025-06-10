@@ -1,5 +1,14 @@
 # Placeholder UI
 
+Start the show with
+
+``` shell
+task site:update
+task site:open
+```
+
+-------------------------------------------------------------------------------
+
 ``` shell
 docker compose pull
 docker compose up --detach --remove-orphans
