@@ -4,6 +4,8 @@ const port = 3000;
 const puppeteer = require("puppeteer");
 const { response } = require("express");
 
+let browser;
+
 app.get("/", async (req, res) => {
     const url = req.query?.url;
     if (!url) {
@@ -22,11 +24,19 @@ app.get("/", async (req, res) => {
     console.log({ url, selector, timeout });
 
     try {
-        const browser = await puppeteer.launch({
-            headless: "shell",
-            // @FIXME We shouldn't be using `--no-sandbox` (cf. https://pptr.dev/troubleshooting#setting-up-chrome-linux-sandbox)
-            args: ["--no-sandbox"],
-        });
+        if (browser && !browser.connected) {
+            // @TODO Do something to restart browser …
+        }
+        // if (!browser) {
+        //     console.log(`Launching browser …`);
+        //     browser = await puppeteer.launch({
+        //         headless: "shell",
+        //         // @FIXME We shouldn't be using `--no-sandbox` (cf. https://pptr.dev/troubleshooting#setting-up-chrome-linux-sandbox)
+        //         args: ["--no-sandbox"],
+        //     });
+        //     console.log(`Browser ready`);
+        // }
+
         const page = await browser.newPage();
         const response = await page.goto(url);
 
@@ -51,7 +61,7 @@ app.get("/", async (req, res) => {
         );
         console.log(content);
 
-        await browser.close();
+        // await browser.close();
 
         res.send({ content });
     } catch (error) {
@@ -66,6 +76,18 @@ app.get("/", async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
-});
+console.log(`Launching browser …`);
+puppeteer
+    .launch({
+        headless: "shell",
+        // @FIXME We shouldn't be using `--no-sandbox` (cf. https://pptr.dev/troubleshooting#setting-up-chrome-linux-sandbox)
+        args: ["--no-sandbox"],
+    })
+    .then((b) => {
+        browser = b;
+        console.log(`Browser ready.`, browser, b);
+
+        app.listen(port, () => {
+            console.log(`Example app listening on port ${port}`);
+        });
+    });
