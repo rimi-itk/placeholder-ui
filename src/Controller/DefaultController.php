@@ -21,30 +21,45 @@ final class DefaultController extends AbstractController
     private const int OUTLINE_WIDTH = 2;
 
     #[Route(
-        path: '/{path}.{_format}',
+        path: '/',
+    )]
+    public function indexNoLocale(): Response
+    {
+        // @TODO Handle path, e.g. redirect from /hest/hyp to /en/hest/hyp
+        return $this->redirectToRoute('default', ['_locale' => 'en', 'path' => '']);
+    }
+
+    #[Route(
+        path: '/{_locale}/{path}.{_format}',
         name: 'default',
         requirements: [
-            // Allow slashes in path.
+            // Allow slashes (but no dots) in path.
             'path' => '[^.]*',
             '_format' => 'html|svg',
         ],
         methods: [Request::METHOD_GET],
-        format: 'html'
+        locale: 'en',
+        format: 'html',
     )]
     #[Cache(maxage: 3600, public: true, mustRevalidate: true)]
-    public function index(Request $request, string $path, string $_format, HttpClientInterface $httpClient): Response
+    public function index(Request $request, string $path, HttpClientInterface $httpClient): Response
     {
         if (empty($path)) {
             return $this->renderIndex($request);
         }
 
+        $_format = $request->getRequestFormat();
         $parameters = $request->query->all() + ['_format' => $_format];
 
         if ('svg' === $_format) {
             $url = 'http://html2svg:3000';
-            $path = substr($request->getPathInfo(), 1, -4);
             $query = array_filter([
-                'url' => 'http://nginx:8080'.$this->generateUrl('default', ['path' => $path, '_format' => 'html', 'render_svg' => true] + $parameters),
+                'url' => 'http://nginx:8080'.$this->generateUrl('default', [
+                    'path' => $path,
+                    '_format' => 'html',
+                    '_locale' => $request->getLocale(),
+                    'render_svg' => true,
+                ] + $parameters),
                 'selector' => '#svg svg',
             ]);
             try {
