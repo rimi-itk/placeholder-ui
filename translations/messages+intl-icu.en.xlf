@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="_DRTgil" resname="UI placeholders">
+        <source>UI placeholders</source>
+        <target>UI placeholders</target>
+      </trans-unit>
+      <trans-unit id="FC.YH9X" resname="Toggle navigation">
+        <source>Toggle navigation</source>
+        <target>Toggle navigation</target>
+      </trans-unit>
+      <trans-unit id="TN5SzIn" resname="header">
+        <source>header</source>
+        <target>header</target>
+      </trans-unit>
+      <trans-unit id="Iy.5S7k" resname="menu">
+        <source>menu</source>
+        <target>menu</target>
+      </trans-unit>
+      <trans-unit id="kX4SdCd" resname="content">
+        <source>content</source>
+        <target>content</target>
+      </trans-unit>
+      <trans-unit id="QvYRfA1" resname="footer">
+        <source>footer</source>
+        <target>footer</target>
+      </trans-unit>
+      <trans-unit id="5aHLrr_" resname="Parameters">
+        <source>Parameters</source>
+        <target>Parameters</target>
+      </trans-unit>
+      <trans-unit id="yNlWNXs" resname="Preview">
+        <source>Preview</source>
+        <target>Preview</target>
+      </trans-unit>
+      <trans-unit id="Q1.NSyT" resname="Examples">
+        <source>Examples</source>
+        <target>Examples</target>
+      </trans-unit>
+      <trans-unit id="VhxhtYo" resname="Username">
+        <source>Username</source>
+        <target>Username</target>
+      </trans-unit>
+      <trans-unit id="GqmFSHc" resname="Password">
+        <source>Password</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="pNIxNSX" resname="Sign in">
+        <source>Sign in</source>
+        <target>Sign in</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

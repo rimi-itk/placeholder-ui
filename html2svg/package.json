@@ -1,0 +1,17 @@
+{
+    "name": "html2svg-api",
+    "version": "1.0.0",
+    "description": "",
+    "license": "ISC",
+    "author": "",
+    "type": "commonjs",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "express": "^5.1.0",
+        "puppeteer": "^24.10.0"
+    },
+    "devDependencies": {}
+}

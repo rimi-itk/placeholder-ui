@@ -6,6 +6,9 @@ networks:
         driver: bridge
         internal: false
 
+include:
+    - docker-compose.html2svg.yml
+
 services:
     mariadb:
         image: itkdev/mariadb:latest

@@ -242,7 +242,7 @@
         ]
     },
     "symfony/stimulus-bundle": {
-        "version": "2.25",
+        "version": "2.26",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
@@ -253,7 +253,7 @@
             "assets/bootstrap.js",
             "assets/controllers.json",
             "assets/controllers/csrf_protection_controller.js",
-            "assets/controllers/hello_controller.js"
+            "assets/controllers/preview_controller.js"
         ]
     },
     "symfony/translation": {
@@ -281,15 +281,6 @@
             "config/packages/twig.yaml",
             "templates/base.html.twig"
         ]
-    },
-    "symfony/ux-turbo": {
-        "version": "2.25",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "2.20",
-            "ref": "c85ff94da66841d7ff087c19cbcd97a2df744ef9"
-        }
     },
     "symfony/validator": {
         "version": "7.3",

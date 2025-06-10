@@ -4,8 +4,13 @@ description: |
   This layout _might_ be the most used.
 
   **Try it!**
+parameters:
+  header: The header title
+  menu: The menu title
 
-  Note, however, that the SVG is not rendered correctly …
+examples:
+  - header: Sidehoved
+  - menu: Navigation
 -- -#}
 {% extends 'layout.html.twig' %}
 
@@ -46,9 +51,9 @@ description: |
 
 {% block content %}
     <div class="layout">
-        <div class="header">{{ 'header'|trans }}</div>
-        <div class="menu">{{ 'menu'|trans }}</div>
-        <div class="content">{{ 'content'|trans }}</div>
-        <div class="footer">{{ 'footer'|trans }}</div>
+        <div class="header">{{ header|default('header'|trans) }}</div>
+        <div class="menu">{{ menu|default('menu'|trans) }}</div>
+        <div class="content">{{ content|default('content'|trans) }}</div>
+        <div class="footer">{{ footer|default('footer'|trans) }}</div>
     </div>
 {% endblock %}

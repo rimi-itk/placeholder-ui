@@ -8,8 +8,16 @@ framework:
     #esi: true
     #fragments: true
 
+    # https://symfony.com/doc/current/deployment/proxies.html#but-what-if-the-ip-of-my-reverse-proxy-changes-constantly
+    trusted_proxies: "127.0.0.1,REMOTE_ADDR"
+
 when@test:
     framework:
         test: true
         session:
             storage_factory_id: session.storage.factory.mock_file
+
+# https://symfony.com/doc/current/http_cache.html#symfony-reverse-proxy
+when@prod:
+    framework:
+        http_cache: true

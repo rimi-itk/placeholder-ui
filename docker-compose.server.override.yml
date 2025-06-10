@@ -1,0 +1,5 @@
+services:
+    phpfpm:
+        image: itkdev/php8.4-fpm:alpine
+        depends_on:
+            - html2svg

@@ -27,6 +27,8 @@ tasks:
             - task: composer
               vars:
                   TASK_ARGS: install {{.COMPOSER_INSTALL_ARGUMENTS}}
+            # https://symfony.com/doc/current/frontend/asset_mapper.html#serving-assets-in-dev-vs-prod
+            - '[ "${APP_ENV:-}" = "prod" ] && task console -- asset-map:compile || true'
             - task: console
               vars:
                   TASK_ARGS: cache:clear
@@ -84,7 +86,7 @@ tasks:
         cmds:
             - task: compose
               vars:
-                  TASK_ARGS: run --rm prettier 'assets/**' --write
+                  TASK_ARGS: run --rm prettier 'assets/**' 'html2svg/**/*.js' --write
 
     coding-standards:assets:check:
         desc: "Apply and check coding standards for assets"
@@ -92,7 +94,7 @@ tasks:
             - task: coding-standards:assets:apply
             - task: compose
               vars:
-                  TASK_ARGS: run --rm prettier 'assets/**' --check
+                  TASK_ARGS: run --rm prettier 'assets/**' 'html2svg/**/*.js' --check
 
     coding-standards:composer:apply:
         desc: "Apply coding standards for composer"
@@ -172,3 +174,12 @@ tasks:
             - task: compose
               vars:
                   TASK_ARGS: run --rm prettier '**/*.{yml,yaml}' --check
+
+    translations:extract:
+        cmds:
+            # We need a translation from en to en (!) (without prefix) to be able to process placeholders in en.
+            - "DEFAULT_LOCALE=en task console -- translation:extract --clean --force en --prefix=''"
+            - "DEFAULT_LOCALE=en task console -- translation:extract --clean --force da"
+            # Mark default translations (prefixed with `__`) as “Needs work” in Danish translations
+            - sed --in-place='' 's/<target>__/<target state=\"needs-l10n\">__/' translations/*.da.*xlf
+        silent: true

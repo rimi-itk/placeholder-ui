@@ -1,8 +1,14 @@
 {#- --
 title: Table
 parameters:
-  cols: The number of columns
-  rows: The number of rows
+  cols:
+    description: The number of columns
+    type: number
+    default: 3
+  rows:
+    description: The number of rows
+    type: number
+    default: 3
 examples:
   -
     cols: 2
@@ -26,8 +32,8 @@ examples:
 {% endblock %}
 
 {% block content %}
-    {% set cols = cols|default(3) %}
-    {% set rows = rows|default(3) %}
+    {% set cols = max(1, cols|default(3)) %}
+    {% set rows = max(1, rows|default(3)) %}
 
     <table>
         <thead>

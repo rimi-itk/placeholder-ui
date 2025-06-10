@@ -1,15 +1,26 @@
 {#- --
 title: HTTP Basic Auth
 parameters:
-  url: The URL to show
+  url:
+    description: The URL to show
+    default: https://example.com
 examples:
   - url: https://stuff.com
   - url: My site
 -- -#}
 {% extends 'component.html.twig' %}
 
+{% block style %}
+    <style>
+        .component {
+            border: solid 1px #aaa;
+        }
+    </style>
+{% endblock %}
+
 {% block content %}
-    <h1>Sign in</h1>
+    <div class="component">
+    <h1>{{ 'Sign in'|trans }}</h1>
 
     <p>{{ url|default('https://example.com') }}</p>
 
@@ -17,4 +28,5 @@ examples:
         <tr><td>{{ 'Username'|trans }}</td><td><input type="text"/></td></tr>
         <tr><td>{{ 'Password'|trans }}</td><td><input type="password"/></td></tr>
     </table>
+    </div>
 {% endblock %}

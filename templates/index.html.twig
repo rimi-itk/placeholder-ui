@@ -1,56 +1,86 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% set formats = ['html', 'svg'] %}
+
     {% for item in items %}
-    <div class="col">
-        <div class="card border-primary mb-3">
-            <div class="card-body">
-                <h5 class="card-title"><a href="{{ url('default', {path: item.path}) }}">{{ item.title }}</a></h5>
+        {% set id = item.path %}
+        <article id="{{ id }}" class="mb-3">
+            <header>
+                <h1><a href="#{{ id }}">{{ item.title }}</a></h1>
+            </header>
 
-                {% if item.description is defined %}
-                    <div class="card-text">{{ item.description|raw }}</div>
-                {% endif %}
+            {% if item.description is defined %}
+                <div class="description">{{ item.description|raw }}</div>
+            {% endif %}
 
-                {% if item.parameters is defined %}
-                <h6>{{ 'Parameters'|trans }}</h6>
-                {% for name, parameter in item.parameters %}
-                    <dl>
-                        <dt>{{ name }}</dt>
-                        <dd>{{ parameter }}</dd>
-                    </dl>
+            {% if item.parameters is defined %}
+                <h2>{{ 'Parameters'|trans }}</h2>
+
+                <form class="parameters-form" {{ stimulus_controller('preview') }} action="{{ path('default', {path: item.path, _format: 'svg'}) }}">
+                    {% for name, spec in item.parameters %}
+                        {% set id = 'form-item-' ~ loop.parent.loop.index ~ '-' ~ loop.index %}
+                        <div class="mb-3">
+                            <label for="{{ id }}" class="form-label">{{ name }} ({{ spec.type }})</label>
+                            <input name="{{ name }}" type="{{ spec.type }}" class="form-control" id="{{ id }}" aria-describedby="{{ id }}-help" value="{{ spec.default|default('') }}">
+                            {% if spec.description is defined %}
+                                <div id="{{ id }}-help" class="form-text">{{ spec.description }}</div>
+                            {% endif %}
+                        </div>
                     {% endfor %}
-                {% endif %}
+                    <div class="mb-3">
+                        <button class="btn btn-secondary" type="button" {{ stimulus_action('preview', 'update') }}>
+                            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                            <span role="status">{{ 'Preview'|trans }}</span>
+                        </button>
+                    </div>
 
-                {% if item.examples is defined %}
-                    <h6>{{ 'Examples'|trans }}</h6>
-                    <ul>
-                    {% for example in item.examples %}
-                        {% set path = path('default', {path: item.path}|merge(example)) %}
-                        <li>
-                            <a href="{{ path }}">{{ path }}</a>
-                            {% for _format in ['html', 'svg'] %}
-                                [<a href="{{ url('default', {path: item.path, _format}|merge(example)) }}">
-                                    {{- _format -}}
-                                </a>]
-                            {% endfor %}
-                        </li>
-                    {% endfor %}
-                    </ul>
-                {% endif %}
+                    <figure>
+                        <img {{ stimulus_target('preview', 'image') }}/>
+                        <figcaption>
+                            <a {{ stimulus_target('preview', 'url') }} ></a>
+                        </figcaption>
+                    </figure>
+                </form>
+            {% endif %}
 
-                {% for _format in ['html', 'svg'] %}
-                    <a href="{{ url('default', {path: item.path, _format}) }}" class="card-link">
-                        {{ _format }}
-                    </a>
+            <h2>{{ 'Examples'|trans }}</h2>
+
+            <div class="accordion accordion-flush">
+                {# Show an example with no parameters set first and then any explicitly defined examples #}
+                {% for example in [{}]|merge(item.examples|default([])) %}
+                    {% set path = path('default', {path: item.path}|merge(example)) %}
+                    {% set svg_path = path('default', {path: item.path, _format: 'svg'}|merge(example)) %}
+
+                    {% set id = 'accordion-item-' ~ loop.parent.loop.index ~ '-' ~ loop.index %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#{{ id }}" aria-expanded="true"
+                                    aria-controls="panelsStayOpen-collapseOne">
+                                {{ path }}
+                            </button>
+                        </h2>
+
+                        <div id="{{ id }}" class="accordion-collapse collapse {{ loop.first ? 'x-show' }}">
+                            <div class="accordion-body">
+                                <div>
+                                    <img src="{{ svg_path }}" alt="{{ path }}"/>
+                                </div>
+                                <div>
+                                    {% for _format in formats %}
+                                        <a class="btn btn-link"
+                                           href="{{ url('default', {path: item.path, _format}|merge(example)) }}">
+                                            {{- _format -}}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 {% endfor %}
-
-                <img class="card-img-bottom"  src="{{ url('default', {path: item.path, _format: 'svg'}) }}" alt="{{ item.title }}"/>
-
             </div>
-        </div>
-        </div>
+        </article>
     {% endfor %}
-
-</div>
 {% endblock %}
