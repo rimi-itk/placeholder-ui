@@ -7,4 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+* [PR-5](https://github.com/rimi-itk/placeholder-ui/pull/5)
+  4: Simplify Dockerfile by using puppeteer image
+
 [Unreleased]: https://github.com/rimi-itk/placeholder-ui
