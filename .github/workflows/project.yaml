@@ -1,0 +1,21 @@
+on:
+    pull_request:
+    push:
+        branches:
+            - main
+            - develop
+
+jobs:
+    dockerfile-lint:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - run: |
+                  docker run --rm --interactive hadolint/hadolint < html2svg/Dockerfile
+
+            - run: |
+                  docker compose run --rm prettier 'assets/**/*.js' --check

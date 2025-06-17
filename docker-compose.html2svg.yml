@@ -3,3 +3,9 @@ services:
         build: ./html2svg
         networks:
             - app
+        # https://pptr.dev/guides/docker#usage
+        # https://docs.docker.com/reference/compose-file/services/#cap_add
+        cap_add:
+            - SYS_ADMIN
+        # https://docs.docker.com/reference/compose-file/services/#init
+        init: true
