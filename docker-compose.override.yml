@@ -3,19 +3,15 @@ services:
     mail: !reset []
 
     phpfpm:
-        image: itkdev/php8.4-fpm:latest
-        depends_on: !override
-            - html2svg
+        image: !reset
+        build: .
+        depends_on: !reset []
 
     nginx:
         labels:
             # HTTPS config - uncomment to enable redirect from :80 to :443
             - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=redirect-to-https"
             - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
-
-    html2svg:
-        ports:
-            - 3000
 
     markdownlint:
         image: peterdavehello/markdownlint

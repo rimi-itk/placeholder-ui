@@ -2,17 +2,15 @@
 
 namespace App\Controller;
 
+use App\SvgHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\Cache;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Yaml\Yaml;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Twig\Error\LoaderError;
 
 final class DefaultController extends AbstractController
@@ -42,43 +40,30 @@ final class DefaultController extends AbstractController
         format: 'html',
     )]
     #[Cache(maxage: 3600, public: true, mustRevalidate: true)]
-    public function index(Request $request, string $path, HttpClientInterface $httpClient): Response
+    public function index(Request $request, string $path, SvgHelper $svgHelper): Response
     {
         if (empty($path)) {
             return $this->renderIndex($request);
         }
 
         $_format = $request->getRequestFormat();
-        $parameters = $request->query->all() + ['_format' => $_format];
+        $componentWrapperId = 'component-wrapper';
+        $parameters = $request->query->all() + ['_format' => $_format, 'component_wrapper_id' => $componentWrapperId];
 
         if ('svg' === $_format) {
-            $url = 'http://html2svg:3000';
-            $query = array_filter([
-                'url' => 'http://nginx:8080'.$this->generateUrl('default', [
-                    'path' => $path,
-                    '_format' => 'html',
-                    '_locale' => $request->getLocale(),
-                    'render_svg' => true,
-                ] + $parameters),
-                'selector' => '#svg svg',
-            ]);
-            try {
-                $response = $httpClient->request('GET', $url, ['query' => $query]);
-
-                $data = $response->toArray();
-
-                return new Response('<?xml version="1.0" encoding="utf-8" ?>'.$data['content'], Response::HTTP_OK,
-                    ['content-type' => 'image/svg+xml']);
-            } catch (ClientException $exception) {
-                header('content-type: text/plain');
-                echo var_export([
-                    $exception->getResponse()->toArray(false),
-                    $exception->getResponse()->getStatusCode(),
-                ], true);
-                exit(__FILE__.':'.__LINE__.':'.__METHOD__);
-                throw $exception;
-                throw new BadRequestHttpException($throwable->getMessage(), previous: $throwable, code: $throwable->getCode());
+            $response = $this->render(rtrim($path ?: 'index', '/').'.html.twig', $parameters);
+            if (!$response->isSuccessful()) {
+                return $response;
             }
+
+            $html = $response->getContent();
+            $svg = $svgHelper->renderSvg($html, '#'.$componentWrapperId);
+
+            return new Response(
+                '<?xml version="1.0" encoding="utf-8" ?>'.$svg,
+                Response::HTTP_OK,
+                ['content-type' => 'image/svg+xml']
+            );
         }
 
         try {

@@ -1,8 +1,0 @@
-# https://www.digitalocean.com/community/tutorials/how-to-build-a-node-js-application-with-docker#step-3-writing-the-dockerfile
-node_modules
-npm-debug.log
-Dockerfile
-.dockerignore
-
-.git
-.gitignore

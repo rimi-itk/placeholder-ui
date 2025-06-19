@@ -1,0 +1,2 @@
+# Ignore our local copy of https://unpkg.com/@zumer/snapdom@1.3.0/dist/snapdom.min.js
+assets/lib/

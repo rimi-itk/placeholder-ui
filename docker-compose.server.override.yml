@@ -1,5 +1,6 @@
 services:
     phpfpm:
-        image: itkdev/php8.4-fpm:alpine
-        depends_on:
-            - html2svg
+        # image: itkdev/php8.4-fpm:alpine
+        image: !reset
+        build:
+            dockerfile: ./Dockerfile.server

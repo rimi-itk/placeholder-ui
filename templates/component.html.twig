@@ -4,39 +4,22 @@
     <title>{% block title %}Component{% endblock %}</title>
     {% block style %}{% endblock %}
     <style>
-        #component-wrapper {
-            padding: 1em;
+        #{{ component_wrapper_id }} {
             display: table-cell;
+            {% block component_wrapper_style '' %}
         }
     </style>
 </head>
 <body>
 {% block body %}
-    <div id="component-wrapper">
+    <div id="{{ component_wrapper_id }}">
         {% block content %}
         {% endblock %}
     </div>
 {% endblock %}
 
-    {% for format, url in urls %}
-        <a href="{{ url }}">{{ format }}</a>
-    {% endfor %}
-
-{% if render_svg|default(false) %}
-    {# https://github.com/zumerlab/snapdom?tab=readme-ov-file #}
-    <script src="https://unpkg.com/@zumer/snapdom@latest/dist/snapdom.min.js"></script>
-    <script>
-        addEventListener('load', async() => {
-            const el = document.querySelector('#component-wrapper');
-            const result = await snapdom(el, { scale: 1 });
-            const blob = await result.toBlob(el);
-
-            const svg = document.createElement('div')
-            svg.id = 'svg'
-            svg.innerHTML = await blob.text()
-            el.parentNode.insertBefore(svg, el);
-        });
-    </script>
-{% endif %}
+{% for format, url in urls|default([]) %}
+    <a href="{{ url }}">{{ format }}</a>
+{% endfor %}
 </body>
 </html>

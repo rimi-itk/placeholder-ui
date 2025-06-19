@@ -1,5 +1,0 @@
-services:
-    html2svg:
-        build: ./html2svg
-        networks:
-            - app
