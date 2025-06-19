@@ -6,9 +6,6 @@ networks:
         driver: bridge
         internal: false
 
-include:
-    - docker-compose.html2svg.yml
-
 services:
     phpfpm:
         image: itkdev/php8.3-fpm:alpine

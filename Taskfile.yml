@@ -87,7 +87,7 @@ tasks:
         cmds:
             - task: compose
               vars:
-                  TASK_ARGS: run --rm prettier 'assets/**' 'html2svg/**/*.js' --write
+                  TASK_ARGS: run --rm prettier 'assets/**' --write
 
     coding-standards:assets:check:
         desc: "Apply and check coding standards for assets"
@@ -95,7 +95,7 @@ tasks:
             - task: coding-standards:assets:apply
             - task: compose
               vars:
-                  TASK_ARGS: run --rm prettier 'assets/**' 'html2svg/**/*.js' --check
+                  TASK_ARGS: run --rm prettier 'assets/**' --check
 
     coding-standards:composer:apply:
         desc: "Apply coding standards for composer"
